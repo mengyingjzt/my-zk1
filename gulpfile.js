@@ -16,7 +16,7 @@ gulp.task("devSass", function() {
 //合并js 压缩js
 gulp.task("devJs", function() {
     return gulp.src("./src/js/*.js")
-        // .pipe(concat())
+        .pipe(concat("all.js"))
         .pipe(uglify())
         .pipe(gulp.dest("./src/js"))
 })
@@ -38,3 +38,23 @@ gulp.task("server", function() {
 
 //default任务
 gulp.task("default", gulp.series("devSass", "devJs", "server", "watch"))
+
+
+//build任务
+
+gulp.task("bSass", function() {
+    return gulp.src("./src/scss/*.scss")
+        .pipe(sass())
+        .pipe(mincss())
+        .pipe(gulp.dest("./src/dist/css"))
+})
+
+//合并js 压缩js
+gulp.task("bJs", function() {
+    return gulp.src("./src/js/*.js")
+        .pipe(concat("all.js"))
+        .pipe(uglify())
+        .pipe(gulp.dest("./src/dist/js"))
+})
+
+gulp.task("build", gulp.series('bSass', 'bJs'))
